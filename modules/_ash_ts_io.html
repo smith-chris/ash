@@ -1,0 +1,449 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@ash.ts/io | ash</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">ash</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="_ash_ts_io.html">@ash.ts/io</a>
+				</li>
+			</ul>
+			<h1>Module @ash.ts/io</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<a href="#ashtsio" id="ashtsio" style="color: inherit; text-decoration: none;">
+						<h1>@ash.ts/io</h1>
+					</a>
+					<p>This package contains classes for serializing and deserializing the entities in
+						an Ash game. This lets you save the entire game state by serializing all the
+					entities in the engine, and restore the game by deserializing them again.</p>
+					<a href="#instalation" id="instalation" style="color: inherit; text-decoration: none;">
+						<h2>Instalation</h2>
+					</a>
+					<p>Using npm:</p>
+					<p><code>npm i @ash.ts/tools</code></p>
+					<p>Using yarn:</p>
+					<p><code>yarn add @ash.ts/tools</code></p>
+					<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+						<h2>Documentation</h2>
+					</a>
+					<p>TypeDoc generated <a href="https://icek.github.io/ash/modules/_ash_ts_io.html">API docs</a></p>
+					<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+						<h2>Examples</h2>
+					</a>
+					<a href="#the-basics" id="the-basics" style="color: inherit; text-decoration: none;">
+						<h3>The basics</h3>
+					</a>
+					<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { JsonEngineCodec } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ash.ts/io'</span>;
+<span class="hljs-keyword">import</span> { Position } <span class="hljs-keyword">from</span> <span class="hljs-string">'../components'</span>;
+
+<span class="hljs-keyword">const</span> classMap = <span class="hljs-keyword">new</span> Map();
+classMap.set(<span class="hljs-string">'Position'</span>, Position);
+<span class="hljs-comment">// add other classes</span>
+
+<span class="hljs-keyword">const</span> codec = <span class="hljs-keyword">new</span> JsonEngineCodec(classMap);
+<span class="hljs-keyword">const</span> serialized = codec.encodeEngine(engine);
+LocalStorage.setItem(<span class="hljs-string">'game-state'</span>, serialized);</code></pre>
+					<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Engine } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ash.ts/core'</span>;
+<span class="hljs-keyword">import</span> { JsonEngineCodec } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ash.ts/io'</span>;
+<span class="hljs-keyword">import</span> { Position } <span class="hljs-keyword">from</span> <span class="hljs-string">'../components'</span>;
+
+<span class="hljs-keyword">const</span> classMap = <span class="hljs-keyword">new</span> Map();
+classMap.set(<span class="hljs-string">'Position'</span>, Position);
+<span class="hljs-comment">// add other classes</span>
+
+<span class="hljs-keyword">const</span> codec = <span class="hljs-keyword">new</span> JsonEngineCodec(classMap);
+<span class="hljs-keyword">const</span> serialized = LocalStorage.getItem(<span class="hljs-string">'game-state'</span>);
+<span class="hljs-keyword">const</span> engine:Engine = <span class="hljs-keyword">new</span> Engine();
+codec.decodeEngine(serialized, engine);</code></pre>
+					<a href="#custom-codecs" id="custom-codecs" style="color: inherit; text-decoration: none;">
+						<h3>Custom codecs</h3>
+					</a>
+					<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { JsonEngineCodec } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ash.ts/io'</span>;
+
+<span class="hljs-keyword">const</span> codec = <span class="hljs-keyword">new</span> JsonEngineCodec(classMap);
+<span class="hljs-keyword">const</span> animationCodec = <span class="hljs-keyword">new</span> AnimationObjectCodec();
+codec.addCustomCodec(animationCodec, Animation);
+<span class="hljs-keyword">const</span> serialized = codec.encodeEngine(engine);
+LocalStorage.setItem(<span class="hljs-string">'game-state'</span>, serialized);</code></pre>
+					<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Engine } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ash.ts/core'</span>;
+<span class="hljs-keyword">import</span> { JsonEngineCodec } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ash.ts/io'</span>;
+
+<span class="hljs-keyword">const</span> codec = <span class="hljs-keyword">new</span> JsonEngineCodec(classMap);
+<span class="hljs-keyword">const</span> animationCodec = <span class="hljs-keyword">new</span> AnimationObjectCodec();
+codec.addCustomCodec(animationCodec, Animation);
+<span class="hljs-keyword">const</span> serialized = LocalStorage.getItem(<span class="hljs-string">'game-state'</span>);
+<span class="hljs-keyword">const</span> engine = <span class="hljs-keyword">new</span> Engine();
+codec.decodeEngine(serialized, engine);</code></pre>
+					<p>This lets you write custom code to handle complex objects that the core code
+					provided can&#39;t handle.</p>
+					<a href="#overlaying-the-save" id="overlaying-the-save" style="color: inherit; text-decoration: none;">
+						<h3>Overlaying the save</h3>
+					</a>
+					<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { JsonEngineCodec } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ash.ts/io'</span>;
+
+<span class="hljs-keyword">const</span> codec = <span class="hljs-keyword">new</span> JsonEngineCodec(classMap);
+<span class="hljs-keyword">const</span> serialized = codec.encodeEngine(engine);
+LocalStorage.setItem(<span class="hljs-string">'game-state'</span>, serialized);</code></pre>
+					<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { JsonEngineCodec } <span class="hljs-keyword">from</span> <span class="hljs-string">'@ash.ts/io'</span>;
+
+<span class="hljs-keyword">const</span> codec = <span class="hljs-keyword">new</span> JsonEngineCodec(classMap);
+<span class="hljs-keyword">const</span> serialized = LocalStorage.getItem(<span class="hljs-string">'game-state'</span>);
+codec.decodeOverEngine(serialized, engine);</code></pre>
+					<p>This will replace data in the engine with the saved data, and leave untouched
+						any data that exists in the engine but not in the save. This lets you ignore
+						complex objects that don&#39;t change, like animations, but store the simple data
+						that does change, like the name of the current running animation and what frame
+					it is on.</p>
+					<a href="#the-engine-codecs" id="the-engine-codecs" style="color: inherit; text-decoration: none;">
+						<h2>The Engine Codecs</h2>
+					</a>
+					<p>There are two levels to the serialization/deserialization. At the top level is
+						the engine codecs. These can be found in the enginecodecs package. There are two
+						codecs in this package, the JsonEngineCodec encodes and decodes the engine as
+						a Json string, and the ObjectEngineCodec encodes and decodes the engine as an
+					anonymous object, which could be further serialized into another format.</p>
+					<p>An engine codec implements the EngineCodec interface, and has four methods and
+						two properties. If you wish to write your own engine codecs to serialize in
+						a form other than Json, you should implement this interface. The methods in the
+					interface are</p>
+					<pre><code class="language-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">encodeEngine</span>(<span class="hljs-params">engine:Engine</span>):<span class="hljs-title">any</span></span>;</code></pre>
+					<p>To encode the entities in an engine. The returned object is the encoded data.</p>
+					<pre><code class="language-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decodeEngine</span>(<span class="hljs-params">encodedData:EncodedData, engine:Engine</span>):<span class="hljs-title">void</span></span>;</code></pre>
+					<p>To decode the entities back into the provided engine.</p>
+					<pre><code class="language-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decodeOverEngine</span>(<span class="hljs-params">encodedData:<span class="hljs-built_in">any</span>, engine:Engine</span>):<span class="hljs-title">void</span></span>;</code></pre>
+					<p>To decode the entities over the top of the entities already in the provided
+						engine. Entities in the decoded data are matched to entities already in the
+						engine based on their names, and components are then matched based on their
+						type. Where a matching entity and component are found, non-null properties in
+						the decoded data are applied to the existing component in the entity. If no
+						matching component is found a new component is created. When no matching entity
+						is found a new entity is created. This lets you save only part of the engine
+					state and restore it later.</p>
+					<pre><code class="language-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addCustomCodec</span>(<span class="hljs-params">codec:ObjectCodec, ...types</span>):<span class="hljs-title">void</span></span>;</code></pre>
+					<p>Adds a custom ObjectCodec to the EngineCodec for encoding/decoding objects of
+					a specific type. See the section on the Object Codecs for more info.</p>
+					<p>An engine codec also provides two signals</p>
+					<pre><code class="language-typescript">encodeComplete:Signal1;</code></pre>
+					<p>This signal is dispatched when the encoding is finished. The payload in the
+					signal is the encoded data.</p>
+					<pre><code class="language-typescript">decodeComplete:Signal1;</code></pre>
+					<p>This signal is dispatched when the decoding is finished. The payload in the
+					signal is the engine the data was decoded into.</p>
+					<a href="#the-object-codecs" id="the-object-codecs" style="color: inherit; text-decoration: none;">
+						<h2>The Object Codecs</h2>
+					</a>
+					<p>The object codecs are in the objectcodecs package. Object codecs convert objects
+						of particular types to/from an anonymous object form. Object codecs are used by
+					engine codecs to encode/decode each specific object.</p>
+					<p>An object codec implements the ObjectCodec interface, and has four methods.</p>
+					<pre><code class="language-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">encode</span>(<span class="hljs-params">object:T, codecManager:CodecManager</span>):<span class="hljs-title">EncodedObject</span></span>;</code></pre>
+					<p>To encode from one of the types handled by the codec into an anonymous object.</p>
+					<pre><code class="language-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decode</span>(<span class="hljs-params">object:EncodedObject, codecManager:CodecManager</span>):<span class="hljs-title">T</span></span>;</code></pre>
+					<p>To decode from an anonymous object into the type handled by the codec.</p>
+					<pre><code class="language-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decodeIntoObject</span>(<span class="hljs-params">target:T, object:EncodedObject, codecManager:CodecManager</span>):<span class="hljs-title">void</span></span>;</code></pre>
+					<p>To decode from an anonymous object into the given target object of a type
+						handled by the codec. This is used when overlaying a saved game state over the
+					current game state.</p>
+					<pre><code class="language-typescript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decodeIntoProperty</span>(<span class="hljs-params">parent:<span class="hljs-built_in">any</span>, property:<span class="hljs-built_in">string</span>, object:EncodedObject, codecManager:CodecManager</span>):<span class="hljs-title">void</span></span>;</code></pre>
+					<p>To decode from an anonymous object into the given property of another object.
+					This is used when overlaying a saved game state over the current game state.</p>
+					<a href="#included-object-codecs" id="included-object-codecs" style="color: inherit; text-decoration: none;">
+						<h2>Included object codecs</h2>
+					</a>
+					<p>There are four ObjectCodecs included.</p>
+					<ul>
+						<li>NativeObjectCodec handles types number, string and boolean.</li>
+						<li>ArrayObjectCodec handles typee Array.</li>
+						<li>ClassObjectCodec handles objects of type Class.</li>
+						<li>ReflectionObjectCodec uses reflection to handle any property types.
+							By default, it handles all components in the engine but does not handle any
+							properties of those components. You can add it as a handler for more object
+						types using the EngineCodec&#39;s addCustomCodec method.</li>
+					</ul>
+					<p>With these four ObjectCodecs, the EngineCodecs can save and restore all
+						components and all properties of those components that are of type number,
+						string, boolean, Class, and Arrays of these types. This is the default behaviour
+						and requires no configuration. If you want to save and restore other more
+						complex types you need to make a custom ObjectCodec for each of those types and
+					add it to the EngineCodec using its addCustomCodec method.</p>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>References</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-reference tsd-parent-kind-module"><a href="_ash_ts_io.html#codecmanager" class="tsd-kind-icon">Codec<wbr>Manager</a></li>
+								<li class="tsd-kind-reference tsd-parent-kind-module"><a href="_ash_ts_io.html#encodedcomponent" class="tsd-kind-icon">Encoded<wbr>Component</a></li>
+								<li class="tsd-kind-reference tsd-parent-kind-module"><a href="_ash_ts_io.html#encodeddata" class="tsd-kind-icon">Encoded<wbr>Data</a></li>
+								<li class="tsd-kind-reference tsd-parent-kind-module"><a href="_ash_ts_io.html#encodedentity" class="tsd-kind-icon">Encoded<wbr>Entity</a></li>
+								<li class="tsd-kind-reference tsd-parent-kind-module"><a href="_ash_ts_io.html#encodedobject" class="tsd-kind-icon">Encoded<wbr>Object</a></li>
+								<li class="tsd-kind-reference tsd-parent-kind-module"><a href="_ash_ts_io.html#enginecodec" class="tsd-kind-icon">Engine<wbr>Codec</a></li>
+								<li class="tsd-kind-reference tsd-parent-kind-module"><a href="_ash_ts_io.html#jsonenginecodec" class="tsd-kind-icon">Json<wbr>Engine<wbr>Codec</a></li>
+								<li class="tsd-kind-reference tsd-parent-kind-module"><a href="_ash_ts_io.html#objectcodec" class="tsd-kind-icon">Object<wbr>Codec</a></li>
+								<li class="tsd-kind-reference tsd-parent-kind-module"><a href="_ash_ts_io.html#objectenginecodec" class="tsd-kind-icon">Object<wbr>Engine<wbr>Codec</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.arrayobjectcodec.html" class="tsd-kind-icon">Array<wbr>Object<wbr>Codec</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.classobjectcodec.html" class="tsd-kind-icon">Class<wbr>Object<wbr>Codec</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.codecmanager-1.html" class="tsd-kind-icon">Codec<wbr>Manager</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.enginedecoder.html" class="tsd-kind-icon">Engine<wbr>Decoder</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.engineencoder.html" class="tsd-kind-icon">Engine<wbr>Encoder</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.jsonenginecodec-1.html" class="tsd-kind-icon">Json<wbr>Engine<wbr>Codec</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.nativeobjectcodec.html" class="tsd-kind-icon">Native<wbr>Object<wbr>Codec</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.objectenginecodec-1.html" class="tsd-kind-icon">Object<wbr>Engine<wbr>Codec</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.objectreflection.html" class="tsd-kind-icon">Object<wbr>Reflection</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.objectreflectionfactory.html" class="tsd-kind-icon">Object<wbr>Reflection<wbr>Factory</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_ash_ts_io.reflectionobjectcodec.html" class="tsd-kind-icon">Reflection<wbr>Object<wbr>Codec</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_ash_ts_io.encodedcomponent-1.html" class="tsd-kind-icon">Encoded<wbr>Component</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_ash_ts_io.encodeddata-1.html" class="tsd-kind-icon">Encoded<wbr>Data</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_ash_ts_io.encodedentity-1.html" class="tsd-kind-icon">Encoded<wbr>Entity</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_ash_ts_io.encodedobject-1.html" class="tsd-kind-icon">Encoded<wbr>Object</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter"><a href="../interfaces/_ash_ts_io.enginecodec-1.html" class="tsd-kind-icon">Engine<wbr>Codec</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter"><a href="../interfaces/_ash_ts_io.objectcodec-1.html" class="tsd-kind-icon">Object<wbr>Codec</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>References</h2>
+				<section class="tsd-panel tsd-member tsd-kind-reference tsd-parent-kind-module">
+					<a name="codecmanager" class="tsd-anchor"></a>
+					<h3>Codec<wbr>Manager</h3>
+					Re-exports <a href="../classes/_ash_ts_io.codecmanager-1.html">CodecManager</a>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-reference tsd-parent-kind-module">
+					<a name="encodedcomponent" class="tsd-anchor"></a>
+					<h3>Encoded<wbr>Component</h3>
+					Re-exports <a href="../interfaces/_ash_ts_io.encodedcomponent-1.html">EncodedComponent</a>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-reference tsd-parent-kind-module">
+					<a name="encodeddata" class="tsd-anchor"></a>
+					<h3>Encoded<wbr>Data</h3>
+					Re-exports <a href="../interfaces/_ash_ts_io.encodeddata-1.html">EncodedData</a>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-reference tsd-parent-kind-module">
+					<a name="encodedentity" class="tsd-anchor"></a>
+					<h3>Encoded<wbr>Entity</h3>
+					Re-exports <a href="../interfaces/_ash_ts_io.encodedentity-1.html">EncodedEntity</a>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-reference tsd-parent-kind-module">
+					<a name="encodedobject" class="tsd-anchor"></a>
+					<h3>Encoded<wbr>Object</h3>
+					Re-exports <a href="../interfaces/_ash_ts_io.encodedobject-1.html">EncodedObject</a>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-reference tsd-parent-kind-module">
+					<a name="enginecodec" class="tsd-anchor"></a>
+					<h3>Engine<wbr>Codec</h3>
+					Re-exports <a href="../interfaces/_ash_ts_io.enginecodec-1.html">EngineCodec</a>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-reference tsd-parent-kind-module">
+					<a name="jsonenginecodec" class="tsd-anchor"></a>
+					<h3>Json<wbr>Engine<wbr>Codec</h3>
+					Re-exports <a href="../classes/_ash_ts_io.jsonenginecodec-1.html">JsonEngineCodec</a>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-reference tsd-parent-kind-module">
+					<a name="objectcodec" class="tsd-anchor"></a>
+					<h3>Object<wbr>Codec</h3>
+					Re-exports <a href="../interfaces/_ash_ts_io.objectcodec-1.html">ObjectCodec</a>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-reference tsd-parent-kind-module">
+					<a name="objectenginecodec" class="tsd-anchor"></a>
+					<h3>Object<wbr>Engine<wbr>Codec</h3>
+					Re-exports <a href="../classes/_ash_ts_io.objectenginecodec-1.html">ObjectEngineCodec</a>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_ash_ts_core.html">@ash.ts/core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_ash_ts_fsm.html">@ash.ts/fsm</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="_ash_ts_io.html">@ash.ts/io</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_ash_ts_signals.html">@ash.ts/signals</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_ash_ts_tick.html">@ash.ts/tick</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_ash_ts_tools.html">@ash.ts/tools</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="_ash_ts_io.html#codecmanager" class="tsd-kind-icon">Codec<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="_ash_ts_io.html#encodedcomponent" class="tsd-kind-icon">Encoded<wbr>Component</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="_ash_ts_io.html#encodeddata" class="tsd-kind-icon">Encoded<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="_ash_ts_io.html#encodedentity" class="tsd-kind-icon">Encoded<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="_ash_ts_io.html#encodedobject" class="tsd-kind-icon">Encoded<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="_ash_ts_io.html#enginecodec" class="tsd-kind-icon">Engine<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="_ash_ts_io.html#jsonenginecodec" class="tsd-kind-icon">Json<wbr>Engine<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="_ash_ts_io.html#objectcodec" class="tsd-kind-icon">Object<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-reference tsd-parent-kind-module">
+						<a href="_ash_ts_io.html#objectenginecodec" class="tsd-kind-icon">Object<wbr>Engine<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.arrayobjectcodec.html" class="tsd-kind-icon">Array<wbr>Object<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.classobjectcodec.html" class="tsd-kind-icon">Class<wbr>Object<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.codecmanager-1.html" class="tsd-kind-icon">Codec<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.enginedecoder.html" class="tsd-kind-icon">Engine<wbr>Decoder</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.engineencoder.html" class="tsd-kind-icon">Engine<wbr>Encoder</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.jsonenginecodec-1.html" class="tsd-kind-icon">Json<wbr>Engine<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.nativeobjectcodec.html" class="tsd-kind-icon">Native<wbr>Object<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.objectenginecodec-1.html" class="tsd-kind-icon">Object<wbr>Engine<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.objectreflection.html" class="tsd-kind-icon">Object<wbr>Reflection</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.objectreflectionfactory.html" class="tsd-kind-icon">Object<wbr>Reflection<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_ash_ts_io.reflectionobjectcodec.html" class="tsd-kind-icon">Reflection<wbr>Object<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_ash_ts_io.encodedcomponent-1.html" class="tsd-kind-icon">Encoded<wbr>Component</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_ash_ts_io.encodeddata-1.html" class="tsd-kind-icon">Encoded<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_ash_ts_io.encodedentity-1.html" class="tsd-kind-icon">Encoded<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_ash_ts_io.encodedobject-1.html" class="tsd-kind-icon">Encoded<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../interfaces/_ash_ts_io.enginecodec-1.html" class="tsd-kind-icon">Engine<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../interfaces/_ash_ts_io.objectcodec-1.html" class="tsd-kind-icon">Object<wbr>Codec</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
