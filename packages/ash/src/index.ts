@@ -15,6 +15,10 @@ import { Signal0, Signal1, Signal2, Signal3 } from '@ash.ts/signals';
 import { FixedTickProvider, FrameTickProvider, TickProvider } from '@ash.ts/tick';
 import { ComponentPool, defineNode, ListIteratingSystem } from '@ash.ts/tools';
 
+console.log('Hello from the engine!')
+
+export const someEngineConst = 5
+
 export {
   Signal0,
   Signal1,
